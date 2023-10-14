@@ -118,27 +118,33 @@ const Main = () => {
   return (
     <div>
       <div>
-        <RoomLogin
-          name={name}
-          setName={setName}
-          roomId={roomId}
-          setRoomId={setRoomId}
-          createRoom={createRoom}
-          joinRoom={joinRoom}
-        />
+        {flag ? (
+          <div></div>
+        ) : (
+          <RoomLogin
+            name={name}
+            setName={setName}
+            roomId={roomId}
+            setRoomId={setRoomId}
+            createRoom={createRoom}
+            joinRoom={joinRoom}
+          />
+        )}
       </div>
-      {flag ? (
-        <ChatWindow
-          currentVideoRef={currentVideoRef}
-          remoteVideoRef={remoteVideoRef}
-          screenShareStatus={screenShareStatus}
-          startScreenShare={startScreenShare}
-          stopScreenShare={stopScreenShare}
-          disconnect={disconnect}
-        />
-      ) : (
-        <div></div>
-      )}
+      <div>
+        {flag ? (
+          <ChatWindow
+            currentVideoRef={currentVideoRef}
+            remoteVideoRef={remoteVideoRef}
+            screenShareStatus={screenShareStatus}
+            startScreenShare={startScreenShare}
+            stopScreenShare={stopScreenShare}
+            disconnect={disconnect}
+          />
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };
