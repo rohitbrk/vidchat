@@ -1,4 +1,4 @@
-const Chat = ({
+const ChatWindow = ({
   currentVideoRef,
   remoteVideoRef,
   screenShareStatus,
@@ -51,4 +51,4 @@ const Chat = ({
   );
 };
 
-export default Chat;
+export default ChatWindow;
