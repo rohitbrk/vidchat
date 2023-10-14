@@ -9,6 +9,8 @@ const Room = () => {
     navigator.mozGetUserMedia;
 
   const [roomId, setRoomId] = useState("");
+  const [flag, setFlag] = useState(false);
+
   const [name, setName] = useState("");
 
   const currentVideoRef = useRef(null);
@@ -37,6 +39,7 @@ const Room = () => {
       });
       remotePeer.current = call;
     });
+    setFlag(true);
   };
 
   const setLocalStream = (stream) => {
@@ -64,6 +67,7 @@ const Room = () => {
         remotePeer.current = call;
       });
     });
+    setFlag(true);
   };
 
   const startScreenShare = () => {
@@ -104,6 +108,7 @@ const Room = () => {
     currentVideoRef.current = null;
     remoteVideoRef.current = null;
     setScreenShareStatus(false);
+    setFlag(false);
   };
 
   return (
@@ -170,7 +175,7 @@ const Room = () => {
           </div>
         </div>
       </div>
-      {roomId ? (
+      {flag ? (
         <Chat
           currentVideoRef={currentVideoRef}
           remoteVideoRef={remoteVideoRef}
