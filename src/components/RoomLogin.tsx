@@ -10,7 +10,7 @@ const RoomLogin = ({
     <div className="w-full max-w-lg border rounded-lg shadow bg-gray-800 border-gray-700">
       <div className="flex flex-col items-center p-6">
         <div className="flex m-2">
-          <span className="inline-flex items-center px-3 text-base text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+          <span className="inline-flex items-center px-3 text-base text-gray-900 bg-gray-800 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

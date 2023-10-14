@@ -4,7 +4,7 @@ import Main from "./components/Main";
 
 const Layout = () => {
   return (
-    <div className="min-h-screen p-14 flex flex-col gap-2 items-center justify-center bg-gray-900">
+    <div className="min-h-screen p-14 flex flex-col gap-2 items-center justify-center bg-stone-900">
       <Nav />
       <Main />
       <Footer />
