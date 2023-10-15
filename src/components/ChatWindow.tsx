@@ -1,3 +1,12 @@
+type ChatWindowProps = {
+  currentVideoRef: null;
+  remoteVideoRef: null;
+  screenShareStatus: boolean;
+  startScreenShare: () => void;
+  stopScreenShare: () => void;
+  disconnect: () => void;
+};
+
 const ChatWindow = ({
   currentVideoRef,
   remoteVideoRef,
@@ -5,7 +14,7 @@ const ChatWindow = ({
   startScreenShare,
   stopScreenShare,
   disconnect,
-}) => {
+}: ChatWindowProps) => {
   return (
     <div>
       <div className="flex flex-col gap-2">

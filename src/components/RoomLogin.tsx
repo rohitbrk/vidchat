@@ -1,3 +1,11 @@
+type RoomLoginProps = {
+  name: string;
+  setName: (name: string) => void;
+  roomId: string;
+  setRoomId: (name: string) => void;
+  createRoom: () => void;
+  joinRoom: () => void;
+};
 const RoomLogin = ({
   name,
   setName,
@@ -5,7 +13,7 @@ const RoomLogin = ({
   setRoomId,
   createRoom,
   joinRoom,
-}) => {
+}: RoomLoginProps) => {
   return (
     <div className="w-full max-w-lg border rounded-lg shadow bg-gray-800 border-gray-700">
       <div className="flex flex-col items-center p-6">

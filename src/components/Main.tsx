@@ -10,7 +10,7 @@ const Main = () => {
     navigator.mozGetUserMedia;
 
   const [roomId, setRoomId] = useState("");
-  const [flag, setFlag] = useState(false);
+  const [showChatWindow, setShowChatWindow] = useState(false);
   const [name, setName] = useState("");
 
   const currentVideoRef = useRef(null);
@@ -23,7 +23,7 @@ const Main = () => {
 
   useEffect(() => {
     // re-renders
-  }, [flag]);
+  }, [showChatWindow]);
 
   const createRoom = () => {
     if (roomId == " " || roomId == "") {
@@ -43,7 +43,7 @@ const Main = () => {
       });
       remotePeer.current = call;
     });
-    setFlag(true);
+    setShowChatWindow(true);
   };
 
   const setLocalStream = (stream) => {
@@ -71,7 +71,7 @@ const Main = () => {
         remotePeer.current = call;
       });
     });
-    setFlag(true);
+    setShowChatWindow(true);
   };
 
   const startScreenShare = () => {
@@ -112,39 +112,35 @@ const Main = () => {
     currentVideoRef.current = null;
     remoteVideoRef.current = null;
     setScreenShareStatus(false);
-    setFlag(false);
+    setShowChatWindow(false);
   };
 
   return (
     <div>
-      <div>
-        {flag ? (
-          <div></div>
-        ) : (
-          <RoomLogin
-            name={name}
-            setName={setName}
-            roomId={roomId}
-            setRoomId={setRoomId}
-            createRoom={createRoom}
-            joinRoom={joinRoom}
-          />
-        )}
-      </div>
-      <div>
-        {flag ? (
-          <ChatWindow
-            currentVideoRef={currentVideoRef}
-            remoteVideoRef={remoteVideoRef}
-            screenShareStatus={screenShareStatus}
-            startScreenShare={startScreenShare}
-            stopScreenShare={stopScreenShare}
-            disconnect={disconnect}
-          />
-        ) : (
-          <div></div>
-        )}
-      </div>
+      {showChatWindow ? (
+        <div></div>
+      ) : (
+        <RoomLogin
+          name={name}
+          setName={setName}
+          roomId={roomId}
+          setRoomId={setRoomId}
+          createRoom={createRoom}
+          joinRoom={joinRoom}
+        />
+      )}
+      {showChatWindow ? (
+        <ChatWindow
+          currentVideoRef={currentVideoRef}
+          remoteVideoRef={remoteVideoRef}
+          screenShareStatus={screenShareStatus}
+          startScreenShare={startScreenShare}
+          stopScreenShare={stopScreenShare}
+          disconnect={disconnect}
+        />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

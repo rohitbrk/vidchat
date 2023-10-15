@@ -1,12 +1,7 @@
 const Nav = () => {
-  const activeStyles = {
-    color: "white",
-    textDecoration: "underline",
-    textUnderlineOffset: "4px",
-  };
   return (
     <>
-      <div className="text-white w-full max-w-screen-lg flex justify-center">
+      <div className="text-white w-full max-w-screen-lg flex justify-center gap-1">
         <span className="ml-1">VidChat</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
