@@ -22,10 +22,6 @@ const Main = () => {
   const remotePeer = useRef(null);
   const [screenShareStatus, setScreenShareStatus] = useState(false);
 
-  useEffect(() => {
-    // re-renders
-  }, [showChatWindow]);
-
   const createRoom = () => {
     if (roomId == " " || roomId == "") {
       alert("Please enter room number");
@@ -107,13 +103,6 @@ const Main = () => {
   };
 
   const disconnect = () => {
-    peer.current = null;
-    remotePeer.current = null;
-    screenStream.current = null;
-    currentVideoRef.current = null;
-    remoteVideoRef.current = null;
-    setScreenShareStatus(false);
-    setShowChatWindow(false);
     window.location.reload(true);
   };
 
