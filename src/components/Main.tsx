@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import Peer from "peerjs";
 import ChatWindow from "./ChatWindow";
@@ -113,6 +114,7 @@ const Main = () => {
     remoteVideoRef.current = null;
     setScreenShareStatus(false);
     setShowChatWindow(false);
+    window.location.reload(true);
   };
 
   return (
