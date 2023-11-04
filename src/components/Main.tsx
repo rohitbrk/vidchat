@@ -23,8 +23,8 @@ const Main = () => {
   const [screenShareStatus, setScreenShareStatus] = useState(false);
 
   const createRoom = () => {
-    if (roomId == " " || roomId == "") {
-      alert("Please enter room number");
+    if (roomId === " " || roomId === "" || name === " " || name === "") {
+      alert("Please enter room id and name");
       return;
     }
     peer.current = new Peer(roomId);
@@ -53,8 +53,8 @@ const Main = () => {
   };
 
   const joinRoom = () => {
-    if (roomId == " " || roomId == "") {
-      alert("Please enter room number");
+    if (roomId === " " || roomId === "" || name === " " || name === "") {
+      alert("Please enter room id and name");
       return;
     }
     peer.current = new Peer();
@@ -82,7 +82,7 @@ const Main = () => {
       if (peer.current) {
         let sender = remotePeer.current.peerConnection
           .getSenders()
-          .find((s) => s.track.kind == videoTrack.kind);
+          .find((sender) => sender.track.kind == videoTrack.kind);
         sender.replaceTrack(videoTrack);
         setScreenShareStatus(true);
       }
@@ -95,7 +95,7 @@ const Main = () => {
     if (peer.current) {
       let sender = remotePeer.current.peerConnection
         .getSenders()
-        .find((s) => s.track.kind == videoTrack.kind);
+        .find((sender) => sender.track.kind == videoTrack.kind);
       sender.replaceTrack(videoTrack);
     }
     screenStream.current.getTracks().forEach((track) => track.stop());
@@ -128,6 +128,7 @@ const Main = () => {
           startScreenShare={startScreenShare}
           stopScreenShare={stopScreenShare}
           disconnect={disconnect}
+          roomId={roomId}
         />
       ) : (
         <div></div>

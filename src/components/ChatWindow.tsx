@@ -5,6 +5,7 @@ type ChatWindowProps = {
   startScreenShare: () => void;
   stopScreenShare: () => void;
   disconnect: () => void;
+  roomId: string;
 };
 
 const ChatWindow = ({
@@ -14,10 +15,14 @@ const ChatWindow = ({
   startScreenShare,
   stopScreenShare,
   disconnect,
+  roomId,
 }: ChatWindowProps) => {
   return (
     <div>
       <div className="flex flex-col gap-2">
+        <div className="max-w-screen-md flex justify-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+          <div className="mr-2 text-lg">{roomId}</div>
+        </div>
         <div>
           <video
             className="w-full h-auto max-w-xl border border-gray-200 rounded-lg"
