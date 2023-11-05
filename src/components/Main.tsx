@@ -27,7 +27,8 @@ const Main = () => {
       alert("Please enter room id and name");
       return;
     }
-    peer.current = new Peer(roomId);
+    // manipulating roomId so that it won't collide
+    peer.current = new Peer(`yth1${roomId}bvn2`);
     peer.current.on("open", () => {
       getUserMedia({ video: true, audio: true }, (stream) => {
         setLocalStream(stream);
@@ -62,7 +63,8 @@ const Main = () => {
     peer.current.on("open", (id) => {
       getUserMedia({ video: true, audio: true }, (stream) => {
         setLocalStream(stream);
-        let call = peer.current.call(roomId, stream);
+        // manipulating roomId so that it won't collide
+        let call = peer.current.call(`yth1${roomId}bvn2`, stream);
         call.on("stream", (stream) => {
           setRemoteStream(stream);
         });
