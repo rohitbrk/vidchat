@@ -47,6 +47,7 @@ const Main = () => {
     currentVideoRef.current.srcObject = stream;
     currentVideoRef.current.play();
   };
+
   const setRemoteStream = (stream) => {
     remoteVideoRef.current.srcObject = stream;
     remoteVideoRef.current.play();
@@ -103,7 +104,7 @@ const Main = () => {
   };
 
   const disconnect = () => {
-    window.location.reload(true);
+    window.location.reload();
   };
 
   return (
