@@ -1,24 +1,55 @@
-import { useContext } from "react";
-import { UserInfoContext } from "../context/UserInfoContext";
+// @ts-nocheck
+import { useRef, useState } from "react";
 
 type ChatWindowProps = {
+  room: string;
   currentVideoRef: null;
   remoteVideoRef: null;
-  screenShareStatus: boolean;
-  startScreenShare: () => void;
-  stopScreenShare: () => void;
-  disconnect: () => void;
-  roomId: string;
+  peer: null;
+  remotePeer: null;
 };
 
 const ChatWindow = ({
+  room,
   currentVideoRef,
   remoteVideoRef,
-  screenShareStatus,
-  startScreenShare,
-  stopScreenShare,
+  peer,
+  remotePeer,
 }: ChatWindowProps) => {
-  const { room } = useContext(UserInfoContext);
+  const [screenShareStatus, setScreenShareStatus] = useState(false);
+  const screenStream = useRef(null);
+
+  const startScreenShare = () => {
+    if (screenShareStatus) stopScreenShare();
+
+    navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+      screenStream.current = stream;
+      let videoTrack = screenStream.current.getVideoTracks()[0];
+      videoTrack.onended = () => stopScreenShare();
+
+      if (peer.current) {
+        let sender = remotePeer.current.peerConnection
+          .getSenders()
+          .find((sender) => sender.track.kind == videoTrack.kind);
+        sender.replaceTrack(videoTrack);
+        setScreenShareStatus(true);
+      }
+    });
+  };
+
+  const stopScreenShare = () => {
+    if (!screenShareStatus) return;
+    let videoTrack = currentVideoRef.current.srcObject.getVideoTracks()[0];
+    if (peer.current) {
+      let sender = remotePeer.current.peerConnection
+        .getSenders()
+        .find((sender) => sender.track.kind == videoTrack.kind);
+      sender.replaceTrack(videoTrack);
+    }
+    screenStream.current.getTracks().forEach((track) => track.stop());
+    setScreenShareStatus(false);
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-2">
@@ -27,7 +58,7 @@ const ChatWindow = ({
         </div>
         <div>
           <video
-            className="w-full h-auto max-w-xl border border-gray-200 rounded-lg"
+            className="w-full h-auto max-w-xl max-w-xl border border-gray-200 rounded-lg"
             preload="none"
             ref={currentVideoRef}
           />

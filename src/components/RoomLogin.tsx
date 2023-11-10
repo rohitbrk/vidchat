@@ -1,22 +1,62 @@
-import { useContext } from "react";
-import {
-  UserInfoContext,
-  UserInfoDispatchContext,
-} from "../context/UserInfoContext";
+// @ts-nocheck
+import { checkUserInfo, updateStream } from "../lib/room";
+import Peer from "peerjs";
 
-type RoomLoginProps = {
-  createRoom: () => void;
-  joinRoom: () => void;
-};
-const RoomLogin = ({ createRoom, joinRoom }: RoomLoginProps) => {
-  const { name, room } = useContext(UserInfoContext);
-  const userInfoDispatch = useContext(UserInfoDispatchContext);
+const RoomLogin = ({
+  userInfo,
+  setUserInfo,
+  currentVideoRef,
+  remoteVideoRef,
+  peer,
+  remotePeer,
+  setShowChatWindow,
+}) => {
+  const getUserMedia =
+    navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia;
 
-  const onChange = (e) =>
-    userInfoDispatch({
-      type: "SET_VAL",
-      payload: { name: e.target.name, value: e.target.value },
+  const { name, room } = userInfo;
+
+  const createRoom = () => {
+    if (!checkUserInfo(name, room)) return;
+    // manipulating room so that it won't collide
+    peer.current = new Peer(`yth1${room}bvn2`);
+    peer.current.on("open", () => {
+      getUserMedia({ video: true, audio: true }, (stream) => {
+        updateStream(currentVideoRef, stream);
+      });
     });
+    peer.current.on("call", (call) => {
+      call.answer(currentVideoRef.current.srcObject);
+      call.on("stream", (stream) => {
+        updateStream(remoteVideoRef, stream);
+      });
+      remotePeer.current = call;
+    });
+    setShowChatWindow(true);
+  };
+
+  const joinRoom = () => {
+    if (!checkUserInfo(name, room)) return;
+    peer.current = new Peer();
+    peer.current.on("open", (id) => {
+      getUserMedia({ video: true, audio: true }, (stream) => {
+        updateStream(currentVideoRef, stream);
+        // manipulating room so that it won't collide
+        let call = peer.current.call(`yth1${room}bvn2`, stream);
+        call.on("stream", (stream) => {
+          updateStream(remoteVideoRef, stream);
+        });
+        remotePeer.current = call;
+      });
+    });
+    setShowChatWindow(true);
+  };
+
+  const onChange = (e) => {
+    setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const form = [
     {
@@ -58,10 +98,13 @@ const RoomLogin = ({ createRoom, joinRoom }: RoomLoginProps) => {
     },
   ];
   return (
-    <div className="w-full max-w-lg border rounded-lg shadow bg-gray-800 border-gray-700">
+    <div className="md:w-screen md:max-w-xl border rounded-lg shadow bg-gray-800 border-gray-700">
       <div className="flex flex-col items-center p-6">
         {form.map((item) => (
-          <div className="flex m-2" key={item.placeholder}>
+          <div
+            className="md:w-screen md:max-w-lg flex m-2"
+            key={item.placeholder}
+          >
             <span className="inline-flex items-center px-3 text-base text-gray-900 bg-gray-800 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
               {item.svg}
             </span>
